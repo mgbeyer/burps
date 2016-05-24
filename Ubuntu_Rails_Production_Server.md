@@ -95,7 +95,7 @@ applications. You might want to change this to 8080 for example:
 	/etc/apache2/ports.conf:
 	Listen 8080
 
-	/etc/apache2/site-available/\*.conf (e.g. “000-default.conf”):
+	/etc/apache2/site-available/*.conf (e.g. “000-default.conf”):
 	<VirtualHost *8080>
 
 *Rails preparation:*
@@ -117,9 +117,9 @@ private key has no passphrase set.
 ownership:*
 
 	mkdir -p /home/deploy/.ssh
-	mv key /home/deploy/.ssh/authorized\_keys
+	mv key /home/deploy/.ssh/authorized_keys
 	chown -R deploy /home/deploy/.ssh
-	chmod 600 /home/deploy/.ssh/authorized\_keys
+	chmod 600 /home/deploy/.ssh/authorized_keys
 
 The next step is to create a SSH keypair for the deployment user for
 Git(Lab) access. Copy the public key to the Git(Lab) server as a deploy
@@ -264,7 +264,7 @@ should be accessible (like: “www.lorem.ipsum/suburi\_name/”) and
 “app\_name” is the name of the folder your application is located
 physically in the file-system:
 
-	location ~ ^/suburi\_name(/.*|$) {
+	location ~ ^/suburi_name(/.*|$) {
 		alias /home/deploy/rep/app_name/public$1;
 		passenger_base_uri /suburi_name;
 		passenger_app_root /home/deploy/rep/app_name;
