@@ -392,12 +392,14 @@ You might want to consider lowering the log level of your error logfile suitable
 
 5.  **bundle / gem installation**: Run “bundle install”. If you want to
     omit gems solely used during development or testing, use “--without
-    development test” parameter.\
+    development test” parameter.
+	<br/>
     Common pitfall: If development takes place on a Windows machine and
     so there are platform specific binaries for certain gems,
     “Gemfile.lock” need NOT to be included in the git repository. Let
     bundler go through the whole process on the production server
-    from scratch. A fresh Gemfile.lock will be created automatically.\
+    from scratch. A fresh Gemfile.lock will be created automatically.
+	<br/>
     In case of an application update you might want to initiate bundle
     update (or bundle update --source gemname to update just a single
     gem according to its :git source in the Gemfile, e.g. in case only
@@ -414,18 +416,23 @@ You might want to consider lowering the log level of your error logfile suitable
 
 	* consider your time zone: Make sure the proper time-zone is
 	  configured (config/application.rb) for your app and
-	  active-record:\
-	  config.time\_zone = ‘Europe/Berlin’\
+	  active-record:
+	  <br/>
+	  config.time\_zone = ‘Europe/Berlin’
+	  <br/>
 	  config.active\_record.default\_timezone = :local
 
 7.  **asset pipeline**:
 
-	* in “/config/environments/production.rb” of your application set\
-	  config.assets.precompile += \['\*.js', '\*.css', '\*.css.erb', '\*.css.scss'\]\
+	* in “/config/environments/production.rb” of your application set
+	  <br/>
+	  config.assets.precompile += \['\*.js', '\*.css', '\*.css.erb', '\*.css.scss'\]
+	  <br/>
 	  config.serve\_static\_files = false
 
 	* prepare static assets for production: bundle exec rake
-	  assets:precompile RAILS\_ENV=production\
+	  assets:precompile RAILS\_ENV=production
+	  <br/>
 	  Note: If your applications are deployed under different
 	  sub-URIs (subdirectories) you have to pre-compile your assets
 	  with the “RAILS\_RELATIVE\_URL\_ROOT=/suburi\_name” parameter.
@@ -437,8 +444,10 @@ You might want to consider lowering the log level of your error logfile suitable
 	  assets:clobber RAILS\_ENV=production). Don’t forget to commence
 	  a “precompile” afterwards.
 
-	* note: for simple WEBrick testing of production mode:\
-	  config.serve\_static\_files = true\
+	* note: for simple WEBrick testing of production mode:
+	  <br/>
+	  config.serve\_static\_files = true
+	  <br/>
 	  config.assets.digest = true
 
 8.  **background jobs**: Some features as „import“, „export“ or reverse
@@ -447,13 +456,14 @@ You might want to consider lowering the log level of your error logfile suitable
     jobworker via its rake task and schedule it to periodically run via
     a cron job for the deployment user. When logged in as deploy run
     “crontab -e” (or run “sudo crontab –e –u deploy” as root). For
-    example you might want to run the task every 4 hours, on the hour:\
-	0 \*/4 \* \* \* export
-    PATH=/home/deploy/.rbenv/shims:/home/deploy/.rbenv/bin:/usr/bin:\$PATH;
-    eval "\$(rbenv init -)"; cd /home/deploy/rep/appname && bundle exec
-    rake jobs:workoff RAILS\_ENV=production\
+    example you might want to run the task every 4 hours, on the hour:
+	<br/>
+	```
+	0 */4 * * * export PATH=/home/deploy/.rbenv/shims:/home/deploy/.rbenv/bin:/usr/bin:$PATH; eval "$(rbenv init -)"; cd /home/deploy/rep/appname && bundle exec rake jobs:workoff RAILS_ENV=production
+	```
     Expanding the path and rbenv initialization are necessary because
-    cron executes under a limited environment.\
+    cron executes under a limited environment.
+	<br/>
     You might want to send all output to nirvana
     (“&gt;/dev/null 2&gt;&1”) in order to keep your syslog clean if you
     have no MTA (mail service) installed (which by default is the case
@@ -462,7 +472,8 @@ You might want to consider lowering the log level of your error logfile suitable
 9.  **importing SKOS data**: You might want to initially import data in
     N-Triples format. To obtain N-Triples data
     from SKOS (XML) format you can use freely available converter tools
-    like “Raptor” (Linux) or “rdfconvert” (Windows).\
+    like “Raptor” (Linux) or “rdfconvert” (Windows).
+	<br/>
     rake iqvoc:import:url URL=path/to/your_file.nt NAMESPACE=’http://your_namespace/’ RAILS\_ENV=production &gt; data/iqvoc\_import\_output.txt
 	
 10.	 **Consider your log level in production mode**: Keep in mind that per default Rails logs pretty verbose and so might 	bloat your application logfile. You should edit your “config/environments/production.rb” accordingly (e.g. add “config.log_level = :warn”).
@@ -499,7 +510,8 @@ provides detailed information about active requests (routing state).
 By default and if not configured otherwise, Passenger logs to global
 Nginx log files, usually located in “/var/log/nginx/”. The application
 itself logs to standard Rails compliant logfiles based on the current
-environment (log/production.log).\
+environment (log/production.log).
+<br/>
 If you want to change the log-level or the logfile location, you can configure this in the http section of your central Nginx config. file „/etc/nginx/nginx.conf”:
 
 	passenger_log_level 2;   # warn
