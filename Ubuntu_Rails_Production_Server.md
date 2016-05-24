@@ -1,8 +1,10 @@
 # B.U.R.P.S.
 ## Building An Ubuntu Rails Production Server
 
-Michael Beyer, 04-2016, rev. 1.04\
-<michael.beyer@gesis.org>\
+Michael Beyer, 04-2016, rev. 1.04
+<br/>
+<michael.beyer@gesis.org>
+<br/>
 <mgbeyer@gmx.de>
 
 <br/>
@@ -355,31 +357,31 @@ You might want to consider lowering the log level of your error logfile suitable
 ## iQvoc application setup
 **(for general information see “<http://iqvoc.net/>”)**
 
-1)  **Git(Lab) setup**: Within your deployment-user’s home directory or
+1.  **Git(Lab) setup**: Within your deployment-user’s home directory or
     relative (e.g. “/home/deploy/rep/”) and logged in as the
     deployment-user, fetch your (corr.) app from your repository (we’re
     using GESIS GitLab server here):
 
-    a.  git clone your-project-url.git
-        app\_name (use the git url as specified in your app’s Gemfile)
+	* git clone your-project-url.git
+	  app\_name (use the git url as specified in your app’s Gemfile)
 
-    b.  “git clone” will create the directory “app\_name” for you, pull
-        the application’s master branch to it and it will perform an
-        implicit “git init” for the directory as well as a “git remote
-        add” for the corr. Git repository’s master branch.
+	* “git clone” will create the directory “app\_name” for you, pull
+	  the application’s master branch to it and it will perform an
+	  implicit “git init” for the directory as well as a “git remote
+	  add” for the corr. Git repository’s master branch.
 
-    c.  At this point you might want to consider some global
-        configuration options for git in general (git config --global),
-        like "core.editor", "user.name" and "user.email"
+	* At this point you might want to consider some global
+	  configuration options for git in general (git config --global),
+	  like "core.editor", "user.name" and "user.email"
 
-2)  **database credentials**: configure the database for production via
+2.  **database credentials**: configure the database for production via
     “config/database.yml”
 
-3)  **secret token**: Make sure you have “config/secrets.yml” in place
+3.  **secret token**: Make sure you have “config/secrets.yml” in place
     and properly set-up for production (use “rake secret” to generate a
     new token).
 
-4)  **security precautions**: If you keep your database credentials and
+4.  **security precautions**: If you keep your database credentials and
     the secret token in their respective configuration files (as done
     above), it is imperative for security reasons those file won’t be
     included in your Git(Lab) repository (.gitignore). There are other
@@ -388,7 +390,7 @@ You might want to consider lowering the log level of your error logfile suitable
     “rbenv-vars” plugin). In order to maintain a clean and simple setup
     we stick to the usual config. files here.
 
-5)  **bundle / gem installation**: Run “bundle install”. If you want to
+5.  **bundle / gem installation**: Run “bundle install”. If you want to
     omit gems solely used during development or testing, use “--without
     development test” parameter.\
     Common pitfall: If development takes place on a Windows machine and
@@ -401,45 +403,45 @@ You might want to consider lowering the log level of your error logfile suitable
     gem according to its :git source in the Gemfile, e.g. in case only
     parts of the iQvoc engine have changed).
 
-6)  **database setup**: Create, migrate and (optionally) seed the
+6.  **database setup**: Create, migrate and (optionally) seed the
     database:
 
-    a.  bundle exec rake db:create RAILS\_ENV=production
+	* bundle exec rake db:create RAILS\_ENV=production
 
-    b.  bundle exec rake db:migrate RAILS\_ENV=production
+	* bundle exec rake db:migrate RAILS\_ENV=production
 
-    c.  optional step: bundle exec rake db:seed RAILS\_ENV=production
+	* optional step: bundle exec rake db:seed RAILS\_ENV=production
 
-    d.  consider your time zone: Make sure the proper time-zone is
-        configured (config/application.rb) for your app and
-        active-record:\
-        config.time\_zone = ‘Europe/Berlin’\
-        config.active\_record.default\_timezone = :local
+	* consider your time zone: Make sure the proper time-zone is
+	  configured (config/application.rb) for your app and
+	  active-record:\
+	  config.time\_zone = ‘Europe/Berlin’\
+	  config.active\_record.default\_timezone = :local
 
-7)  **asset pipeline**:
+7.  **asset pipeline**:
 
-    a.  in “/config/environments/production.rb” of your application set\
-        config.assets.precompile += \['\*.js', '\*.css', '\*.css.erb', '\*.css.scss'\]\
-        config.serve\_static\_files = false
+	* in “/config/environments/production.rb” of your application set\
+	  config.assets.precompile += \['\*.js', '\*.css', '\*.css.erb', '\*.css.scss'\]\
+	  config.serve\_static\_files = false
 
-    b.  prepare static assets for production: bundle exec rake
-        assets:precompile RAILS\_ENV=production\
-        Note: If your applications are deployed under different
-        sub-URIs (subdirectories) you have to pre-compile your assets
-        with the “RAILS\_RELATIVE\_URL\_ROOT=/suburi\_name” parameter.
+	* prepare static assets for production: bundle exec rake
+	  assets:precompile RAILS\_ENV=production\
+	  Note: If your applications are deployed under different
+	  sub-URIs (subdirectories) you have to pre-compile your assets
+	  with the “RAILS\_RELATIVE\_URL\_ROOT=/suburi\_name” parameter.
 
-    c.  clean-up static assets for production in case of an update
-        (prior to the previous step): bundle exec rake assets:clean
-        RAILS\_ENV=production (you might want to purge the whole asset
-        cache completely by initiating bundle exec rake
-        assets:clobber RAILS\_ENV=production). Don’t forget to commence
-        a “precompile” afterwards.
+	* clean-up static assets for production in case of an update
+	  (prior to the previous step): bundle exec rake assets:clean
+	  RAILS\_ENV=production (you might want to purge the whole asset
+	  cache completely by initiating bundle exec rake
+	  assets:clobber RAILS\_ENV=production). Don’t forget to commence
+	  a “precompile” afterwards.
 
-    d.  note: for simple WEBrick testing of production mode:\
-        config.serve\_static\_files = true\
-        config.assets.digest = true
+	* note: for simple WEBrick testing of production mode:\
+	  config.serve\_static\_files = true\
+	  config.assets.digest = true
 
-8)  **background jobs**: Some features as „import“, „export“ or reverse
+8.  **background jobs**: Some features as „import“, „export“ or reverse
     mapping relations (backlinks) for federated concept mappings store
     their workload as asynchronous jobs. You can utilize the one-off
     jobworker via its rake task and schedule it to periodically run via
@@ -457,13 +459,13 @@ You might want to consider lowering the log level of your error logfile suitable
     have no MTA (mail service) installed (which by default is the case
     with Ubuntu).
 
-9)  **importing SKOS data**: You might want to initially import data in
+9.  **importing SKOS data**: You might want to initially import data in
     N-Triples format. To obtain N-Triples data
     from SKOS (XML) format you can use freely available converter tools
     like “Raptor” (Linux) or “rdfconvert” (Windows).\
     rake iqvoc:import:url URL=path/to/your_file.nt NAMESPACE=’http://your_namespace/’ RAILS\_ENV=production &gt; data/iqvoc\_import\_output.txt
 	
-10)	 **Consider your log level in production mode**: Keep in mind that per default Rails logs pretty verbose and so might 	bloat your application logfile. You should edit your “config/environments/production.rb” accordingly (e.g. add “config.log_level = :warn”).
+10.	 **Consider your log level in production mode**: Keep in mind that per default Rails logs pretty verbose and so might 	bloat your application logfile. You should edit your “config/environments/production.rb” accordingly (e.g. add “config.log_level = :warn”).
 
 <br/>
 	
@@ -664,5 +666,6 @@ A similar script (bash) as the one mentioned above.
 
 **Understanding Logrotate on Ubuntu**
 
-<http://articles.slicehost.com/2010/6/30/understanding-logrotate-on-ubuntu-part-1>\
+<http://articles.slicehost.com/2010/6/30/understanding-logrotate-on-ubuntu-part-1>
+<br/>
 <http://articles.slicehost.com/2010/6/30/understanding-logrotate-on-ubuntu-part-2>
